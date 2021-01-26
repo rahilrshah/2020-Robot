@@ -23,7 +23,7 @@ public class MoveBalls extends CommandBase {
     addRequirements(Robot.shooter);
   }
 
-  // Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.r
   @Override
   public void initialize() {
   }
@@ -33,27 +33,13 @@ public class MoveBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leftStick = Robot.oi.xbox1.getRawAxis(Robot.oi.XBOX_L_YAXIS);
+    // leftStick = Robot.oi.xbox1.getRawAxis(Robot.oi.XBOX_L_YAXIS);
     LTrigger = Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_L_Trigger);
     RTrigger = Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_R_Trigger);
 
-    if(leftStick > 0.1 || leftStick < -0.1) {
-      Robot.intake.upserializer2(leftStick);
-      Robot.shooter.index(leftStick);
-    }
-    else {
-      Robot.intake.upserializer2(0);
-      Robot.shooter.index(0);
-    }
-
-    if(LTrigger >= 0 && RTrigger == 0){
-      Robot.intake.retrieveBall(-0.3*LTrigger);
-      Robot.intake.upserializer1(-0.5*LTrigger);
-    } 
-    else {
-      Robot.intake.retrieveBall(0.3*RTrigger);
-      Robot.intake.upserializer1(0.5*RTrigger);
-    }
+    Robot.intake.downserializer1(LTrigger-RTrigger);
+    Robot.intake.downserializer2(LTrigger-RTrigger);
+    Robot.intake.retrieveBall(LTrigger-RTrigger);
   }
 
   

@@ -28,7 +28,7 @@ public class index extends CommandBase {
   @Override
   public void execute() {
     // Runs indexer between serializer and turret
-    Robot.shooter.index(0.5);
+    Robot.shooter.index(-0.75);
   }
 
   // Called once the command ends or is interrupted.

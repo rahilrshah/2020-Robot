@@ -29,73 +29,60 @@ public class Shooter extends SubsystemBase {
   public final int kPIDLoopIdx = 0;
   public final int kTimeoutMs = 30;
 
-  public  double kF = consts.shooterkF;
-  public  double kD = consts.shooterkD;
-  public  double kI = consts.shooterkI;
-  public  double kP = consts.shooterkP;
 
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
-  private static int CurrentCounter = 0;
 
-  public void initDefaultCommand() {
-  }
 
   public Shooter() {
     shooter.configFactoryDefault();
     shooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
 
     shooter.setSensorPhase(true);
-    // SmartDashboard.putNumber("Setpoint", 500);
-    SmartDashboard.putNumber("Shoot P: ", 0);
-    SmartDashboard.putNumber("Shoot I: ", 0);
-    SmartDashboard.putNumber("Shoot D: ", 0);
-    SmartDashboard.putNumber("Shoot F: ", 0);
-    SmartDashboard.putString("Notes", "Hey guys, there is like a two to one gear ratio so don't like go sicko mode");
-  }
-  public void run(final double speed){
-    
-    // if(pdp.getCurrent(3) < 60)
-    // {
-    //   if(CurrentCounter > 0) CurrentCounter--;
-    //   if(CurrentCounter == 0){
-    //     shooter.set(ControlMode.PercentOutput, speed);
-    //     //shooter1.set(speed);
-    //   }
-    //   SmartDashboard.putBoolean("Stop: ", false);
-    // }else{
-    //   CurrentCounter++;
-    //   if(CurrentCounter > 10)
-    //   {
-    //     CurrentCounter = 100;
-    //     SmartDashboard.putBoolean("Stop: ", true);
-    //     shooter.set(ControlMode.PercentOutput, 0.0);
-    //     //shooter1.set(0.0);
-    //   }  
-    // }
-    // SmartDashboard.putNumber("encoder: ", shooter.getSelectedSensorVelocity(0));
-    // SmartDashboard.putNumber("Current Counter: ", CurrentCounter); 
 
-    kP = consts.shooterkP;
-    kI = consts.shooterkI;
-    kD = consts.shooterkD;
-    kF = consts.shooterkF;
+    shooter.config_kF(kPIDLoopIdx, consts.shooterkF, kTimeoutMs);
+    shooter.config_kD(kPIDLoopIdx, consts.shooterkD, kTimeoutMs);
+    shooter.config_kI(kPIDLoopIdx, consts.shooterkI, kTimeoutMs);
+    shooter.config_kP(kPIDLoopIdx, consts.shooterkP, kTimeoutMs);
 
     shooter.configNominalOutputForward(0, kTimeoutMs);
     shooter.configNominalOutputReverse(0, kTimeoutMs);
     shooter.configPeakOutputForward(1, kTimeoutMs);
     shooter.configPeakOutputReverse(-1, kTimeoutMs);
-
-    shooter.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
-    shooter.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
-    shooter.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
-    shooter.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+    
 
     shooter.setInverted(true);
-    shooter.set(ControlMode.Velocity, speed * 4096 / 600);
+
+    
+  }
+
+
+
+  public void run(final double speed){
+    
+    
+
+
+    shooter.config_kF(kPIDLoopIdx, consts.shooterkF, kTimeoutMs);
+    shooter.config_kD(kPIDLoopIdx, consts.shooterkD, kTimeoutMs);
+    shooter.config_kI(kPIDLoopIdx, consts.shooterkI, kTimeoutMs);
+    shooter.config_kP(kPIDLoopIdx, consts.shooterkP, kTimeoutMs);
+
+    shooter.configNominalOutputForward(0, kTimeoutMs);
+    shooter.configNominalOutputReverse(0, kTimeoutMs);
+    shooter.configPeakOutputForward(1, kTimeoutMs);
+    shooter.configPeakOutputReverse(-1, kTimeoutMs);
+    
+
+    shooter.setInverted(true);
+    shooter.set(ControlMode.Velocity, speed * 4096 / 1200);// 4096/1200
+    SmartDashboard.putNumber("encoder: ", shooter.getSelectedSensorVelocity(1));
+
+    
   }
 
   public void norun(){
     shooter.set(ControlMode.PercentOutput,0);
+    indexer.set(ControlMode.PercentOutput,0);
   }
 
   public void index(double speed){
@@ -107,7 +94,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void getVelocity(){
-    SmartDashboard.putNumber("Shooter Velocity: ", shooter.getSelectedSensorVelocity(0)* 600 / 4096);
+    SmartDashboard.putNumber("Shooter Velocity: ", shooter.getSelectedSensorVelocity(1)* -1200 / 4096);//-1200/4096
   }
 
   @Override
