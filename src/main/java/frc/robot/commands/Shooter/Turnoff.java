@@ -33,6 +33,7 @@ public class Turnoff extends CommandBase {
   @Override
   public void execute() {
     Robot.shooter.norun();
+    Robot.shooter.getVelocity();
   }
 
   // Called once the command ends or is interrupted.

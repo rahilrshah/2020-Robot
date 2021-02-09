@@ -7,16 +7,16 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+// import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+// import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import com.revrobotics.CANEncoder;
+// import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.EncoderType;
+// import com.revrobotics.EncoderType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Intake extends SubsystemBase {
@@ -39,11 +39,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void retrieveBall(double speed){
-    intake.set(speed);
+    intake.set(-speed);
   }
 
   public void outtakeBall(double speed){
-    intake.set(-speed);
+    intake.set(speed);
   }
 
   public void upserializer1(double speed){

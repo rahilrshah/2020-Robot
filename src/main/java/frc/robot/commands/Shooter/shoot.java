@@ -8,7 +8,6 @@
 package frc.robot.commands.Shooter;
 
 import frc.robot.Robot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,18 +35,19 @@ public class shoot extends CommandBase {
   @Override
   public void execute() {
      // Turns on flywheel at a certain rpm
-    speed = SmartDashboard.getNumber("Shooter Velocity Setpoint", 0);
+    speed = 3500;
     Robot.shooter.run(speed);
+    Robot.shooter.getVelocity();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-  }
+  } 
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

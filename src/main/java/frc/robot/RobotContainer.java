@@ -9,14 +9,18 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Shooter.*;
 import frc.robot.commands.Turret.AutoAim;
-import frc.robot.commands.Turret.*;
-import frc.robot.commands.Drive.*;
-import frc.robot.commands.Intake.countBalls;
+// import frc.robot.commands.Turret.AutoAim;
+// import frc.robot.commands.Turret.*;
+// import frc.robot.commands.Drive.*;
+// import frc.robot.commands.Intake.countBalls;
+// import frc.robot.commands.Turret.AutoAim;
+// import frc.robot.commands.Turret.Turretoff;
+import frc.robot.commands.Turret.Turretoff;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -28,7 +32,7 @@ import frc.robot.commands.Intake.countBalls;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  private final AutoCommandGroup m_autoCommand = new AutoCommandGroup();
+  // private final AutoCommandGroup m_autoCommand = new AutoCommandGroup();
 
   public int XBOX_R_XAXIS = 4;
   public int XBOX_R_YAXIS = 5;
@@ -49,13 +53,13 @@ public class RobotContainer {
   public JoystickButton driver1Buttonstart = new JoystickButton(xbox0, 8);
 
   // Driver 2
-  public XboxController xbox1 = new XboxController(1);
-  public JoystickButton driver2ButtonA = new JoystickButton(xbox1, 1);
-  public JoystickButton driver2ButtonX = new JoystickButton(xbox1, 3);
-  public JoystickButton driver2ButtonY = new JoystickButton(xbox1, 4);
-  public JoystickButton driver2ButtonB = new JoystickButton(xbox1, 2);
-  public JoystickButton driver2RBumper = new JoystickButton(xbox1, 6);
-  public JoystickButton driver2LBumper = new JoystickButton(xbox1, 5);
+  // public XboxController xbox1 = new XboxController(1);
+  // public JoystickButton driver2ButtonA = new JoystickButton(xbox1, 1);
+  // public JoystickButton driver2ButtonX = new JoystickButton(xbox1, 3);
+  // public JoystickButton driver2ButtonY = new JoystickButton(xbox1, 4);
+  // public JoystickButton driver2ButtonB = new JoystickButton(xbox1, 2);
+  // public JoystickButton driver2RBumper = new JoystickButton(xbox1, 6);
+  // public JoystickButton driver2LBumper = new JoystickButton(xbox1, 5);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -74,16 +78,18 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     // driver 1
-    driver1RBumper.whenPressed(new Turnoff());
+    // driver1RBumper.whenPressed(new Turnoff());
     driver1ButtonY.whileHeld(new index());
-    driver1ButtonX.whenPressed(new countBalls());
+    // driver1ButtonX.whenPressed(new countBalls());
 
     // driver 2 
-    driver2ButtonA.whenPressed(new shoot());
-    driver2ButtonX.whenPressed(new ShooterIdle());
-    driver2ButtonB.whenPressed(new AutoAim());
-    driver2LBumper.whenPressed(new TurretStabilizer());
-    driver2RBumper.whenPressed(new TurnoffStabilizer());
+    driver1LBumper.whileHeld(new shoot());
+    driver1RBumper.whileHeld(new ShooterIdle());
+    driver1ButtonB.whileHeld(new AutoAim());
+    driver1ButtonA.whileHeld(new Turretoff());
+    // driver2ButtonB.whenPressed(new AutoAim());
+    // driver2LBumper.whenPressed(new TurretStabilizer());
+    // driver2RBumper.whenPressed(new TurnoffStabilizer());
   }
 
 
@@ -92,8 +98,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   // return m_autoCommand;
+  // }
 }

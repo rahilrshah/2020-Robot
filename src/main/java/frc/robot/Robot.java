@@ -8,11 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 //import subsystems
@@ -24,20 +22,21 @@ import frc.robot.subsystems.Intake;
 
 //import commands
 import frc.robot.commands.Shooter.*;
-
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.Turret.*;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.commands.Drive.AutoDrive;
-//import commands to be default
 import frc.robot.commands.Drive.JoyStickDrive;
 import frc.robot.commands.Intake.MoveBalls;
-import frc.robot.commands.Shooter.Turnoff;
-import frc.robot.commands.Turret.TurretJoyStick;
+import frc.robot.Constants;
+import frc.robot.Robot;
+
+
+import com.ctre.phoenix.motorcontrol.*;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -47,23 +46,26 @@ import frc.robot.commands.Turret.TurretJoyStick;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private AutoDrive autoDrive = new AutoDrive();
+  // private AutoDrive autoDrive = new AutoDrive();
   public static RobotContainer oi;
 
   public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   // Create instances of subsystems
   public static Shooter shooter = new Shooter();
+  public static Turret turret = new Turret();
   public static Vision vision = new Vision();
   public static Drive drive = new Drive();
-  public static Turret turret = new Turret();
   public static Intake intake = new Intake();
 
   // Create Limelight
   public static NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTableEntry ledMode = limelight.getEntry("ledMode");
+  public static NetworkTableEntry tx = limelight.getEntry("tx");
 
   public static AHRS navx = new AHRS(SPI.Port.kMXP);
+
+  public static Constants consts = new Constants();
 
   // Var for fms
     String gameData;
@@ -110,12 +112,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = oi.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    SmartDashboard.putBoolean("Autonomous: ", true);
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      // auto.schedule();
+      m_autonomousCommand.schedule();
     }
   }
 
@@ -124,9 +125,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    autoDrive.execute();
-    drive.getDriveValues();
+    CommandScheduler.getInstance().run();
   }
+
+  public final int kPIDLoopIdx = 0;
+  public final int kTimeoutMs = 20;
 
   @Override
   public void teleopInit() {
@@ -140,10 +143,46 @@ public class Robot extends TimedRobot {
 
     // Set Default Commands for subsystems
     drive.setDefaultCommand(new JoyStickDrive());
-    //turret.setDefaultCommand(new TurretJoyStick());
+    turret.setDefaultCommand(new TurretJoyStick());
     shooter.setDefaultCommand(new ShooterIdle());
     intake.setDefaultCommand(new MoveBalls());
+    turret.setDefaultCommand(new Turretoff());
     ledMode.setNumber(1);
+
+    Shooter.shooter.configFactoryDefault();
+    Shooter.shooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+
+    Shooter.shooter.setSensorPhase(true);
+
+    Shooter.shooter.config_kF(kPIDLoopIdx, consts.shooterkF, kTimeoutMs);
+    Shooter.shooter.config_kD(kPIDLoopIdx, consts.shooterkD, kTimeoutMs);
+    Shooter.shooter.config_kI(kPIDLoopIdx, consts.shooterkI, kTimeoutMs);
+    Shooter.shooter.config_kP(kPIDLoopIdx, consts.shooterkP, kTimeoutMs);
+
+    Shooter.shooter.configNominalOutputForward(0, kTimeoutMs);
+    Shooter.shooter.configNominalOutputReverse(0, kTimeoutMs);
+    Shooter.shooter.configPeakOutputForward(1, kTimeoutMs);
+    Shooter.shooter.configPeakOutputReverse(-1, kTimeoutMs);
+
+    Turret.Turret.configNominalOutputForward(0, kTimeoutMs);
+    Turret.Turret.configNominalOutputReverse(0, kTimeoutMs);
+    Turret.Turret.configPeakOutputForward(0.2, kTimeoutMs);
+    Turret.Turret.configPeakOutputReverse(-0.2, kTimeoutMs);
+
+    // Turret.configForwardSoftLimitThreshold(10000, 0);
+    // Turret.configReverseSoftLimitThreshold(-10000, 0);
+    // Turret.configForwardSoftLimitEnable(true, 0);
+    // Turret.configReverseSoftLimitEnable(true, 0);
+
+    Turret.Turret.configAllowableClosedloopError(0, 0, kTimeoutMs);
+
+
+    Turret.Turret.config_kD(0, Constants.turretkD, kTimeoutMs);
+    Turret.Turret.config_kI(0, Constants.turretkI, kTimeoutMs);
+    Turret.Turret.config_kP(0, Constants.turretkP, kTimeoutMs);
+    Turret.Turret.config_IntegralZone(0, Constants.turretIntZone, kTimeoutMs);    
+    
+
   }
 
   /**
@@ -154,34 +193,37 @@ public class Robot extends TimedRobot {
     // Needs to be removed
     shooter.getVelocity();
     turret.getPosition();
-    turret.getVelocity();
+    vision.GetX();
+    SmartDashboard.putNumber("LIMELIGHT:", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0));
 
     // Read from FMS for WOF
-    gameData = DriverStation.getInstance().getGameSpecificMessage();
-    if(gameData.length() > 0){
-      switch(gameData.charAt(0)){
-          case 'B' :
-          //blue code
-          SmartDashboard.putString("wheel color", "Blue");
-          break;
-          case 'R' :
-          //red code
-          SmartDashboard.putString("wheel color", "Red");
-          break;
-          case 'Y' :
-          //yellow code
-          SmartDashboard.putString("wheel color", "Yellow");
-          break;
-          case 'G' :
-          //green code
-          SmartDashboard.putString("wheel color", "Green");
-          break;
-      }
-    }
+    // gameData = DriverStation.getInstance().getGameSpecificMessage();
+    // if(gameData.length() > 0){
+    //   switch(gameData.charAt(0)){
+    //       case 'B' :
+    //       //blue code
+    //       SmartDashboard.putString("wheel color", "Blue");
+    //       break;
+    //       case 'R' :
+    //       //red code
+    //       SmartDashboard.putString("wheel color", "Red");
+    //       break;
+    //       case 'Y' :
+    //       //yellow code
+    //       SmartDashboard.putString("wheel color", "Yellow");
+    //       break;
+    //       case 'G' :
+    //       //green code
+    //       SmartDashboard.putString("wheel color", "Green");
+    //       break;
+    //   }
+    // }
 
-    // TODO: Needs to be put into separate file
+    // Needs to be put into separate file
     // Testing Purposes
     // SmartDashboard.putNumber("Roll: ", navx.getRoll());
+
+
   }
 
   @Override

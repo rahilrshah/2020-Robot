@@ -5,18 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Shooter;
+package frc.robot.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class index extends CommandBase {
+public class Turretoff extends CommandBase {
   /**
-   * Creates a new index.
+   * Creates a new Turnoff.
    */
-  public index() {
+  public Turretoff() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.shooter);
+    addRequirements(Robot.turret);
   }
 
   // Called when the command is initially scheduled.
@@ -27,14 +27,12 @@ public class index extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Runs indexer between serializer and turret
-    Robot.shooter.index(-0.75);
+    Robot.turret.autorotate(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
   }
 
   // Returns true when the command should end.

@@ -30,7 +30,7 @@ public class TurretJoyStick extends CommandBase {
   @Override
   public void execute() {
     // Manual movement of Turret using xbox controls
-    speed =  Robot.oi.xbox1.getRawAxis(Robot.oi.XBOX_R_XAXIS) * .10;
+    // speed =  Robot.oi.xbox1.getRawAxis(Robot.oi.XBOX_R_XAXIS) * .10;
     Robot.turret.rotate(speed);
   }
 

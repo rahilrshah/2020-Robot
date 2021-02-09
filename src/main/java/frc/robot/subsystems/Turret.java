@@ -8,10 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+// import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,48 +23,37 @@ public class Turret extends SubsystemBase {
   private static Constants consts = new Constants();
   public static TalonFX Turret = new TalonFX(consts.Turret);
 
-  public final int kPIDLoopIdx = 77;
-  public final int kTimeoutMs = 30;
+  public final int kPIDLoopIdx = 0;
+  public final int kTimeoutMs = 20;
 
-  public  double kF = consts.turretkF;
-  public  double kD = consts.turretkD;
-  public  double kI = consts.turretkI;
-  public  double kP = consts.turretkP;
 
   public void initDefaultCommand() {
   }
 
   public Turret() {
-    TalonFXConfiguration config = new TalonFXConfiguration();
-    config.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-    Turret.configAllSettings(config);
-    Turret.setSelectedSensorPosition(0);
+    Turret.configFactoryDefault();
+    Turret.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+    
+    Turret.setInverted(false);
+    // SmartDashboard.putNumber("encoder: ", Turret.getSelectedSensorVelocity(0));
   }
 
   public void autorotate(double position) {
 
-    Turret.configNominalOutputForward(0, kTimeoutMs);
-    Turret.configNominalOutputReverse(0, kTimeoutMs);
-    Turret.configPeakOutputForward(0.2, kTimeoutMs);
-    Turret.configPeakOutputReverse(-0.2, kTimeoutMs);
-
-    Turret.configForwardSoftLimitThreshold(10000, 0);
-    Turret.configReverseSoftLimitThreshold(-10000, 0);
-    Turret.configForwardSoftLimitEnable(true, 0);
-    Turret.configReverseSoftLimitEnable(true, 0);
-
-    Turret.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs);
-
-    Turret.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
-    Turret.config_kD(0, kD, kTimeoutMs);
-    Turret.config_kI(0, kI, kTimeoutMs);
-    Turret.config_kP(0, kP, kTimeoutMs);
     
     //linear regression told us conversion lol ::pogchamp::
     Turret.set(ControlMode.Position, position*4096.0/64.0);
 
-    SmartDashboard.putNumber("Motor Output: ", Turret.getMotorOutputPercent());
-    SmartDashboard.putNumber("Closed Error Loop: ", Turret.getClosedLoopError());
+    SmartDashboard.putNumber("position", Turret.getSelectedSensorPosition(1)*64.0/4096.0);
+
+    // SmartDashboard.putNumber("Motor Output: ", Turret.getMotorOutputPercent());
+    // SmartDashboard.putNumber("Closed Error Loop: ", Turret.getClosedLoopError());
+  }
+
+
+  
+  public void stop(){
+    Turret.set(ControlMode.PercentOutput, 0);
   }
 
   public void rotate(double speed){
@@ -75,13 +62,13 @@ public class Turret extends SubsystemBase {
 
   public double getPosition() {
     SmartDashboard.putNumber("position", Turret.getSelectedSensorPosition(0)*64.0/4096.0);
-    return Turret.getSelectedSensorPosition(0)*64.0/4096.0;
+    return Turret.getSelectedSensorPosition(0)*64.0/2048.0;
   }
 
-  public double getVelocity() {
-    SmartDashboard.putNumber("speed", Turret.getSelectedSensorVelocity(0) * 600.0 / 2048.0 );
-    return Turret.getSelectedSensorVelocity(0) * 600.0 / 2048.0;
-  }
+  // public double getVelocity() {
+  //   SmartDashboard.putNumber("speed", Turret.getSelectedSensorVelocity(0) * 600.0 / 2048.0 );
+  //   return Turret.getSelectedSensorVelocity(0) * 600.0 / 2048.0;
+  // }
   
   @Override
   public void periodic() {

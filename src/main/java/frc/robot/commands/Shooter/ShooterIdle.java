@@ -29,6 +29,7 @@ public class ShooterIdle extends CommandBase {
   public void execute() {
     Robot.shooter.indexstop();
     Robot.shooter.norun();
+    Robot.shooter.getVelocity();
   }
 
   // Called once the command ends or is interrupted.
