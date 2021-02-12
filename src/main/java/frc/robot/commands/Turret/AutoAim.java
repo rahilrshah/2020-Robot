@@ -21,7 +21,6 @@ public class AutoAim extends CommandBase {
   public AutoAim() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.turret);
-    addRequirements(Robot.vision);
 
     // FOR TESTING PURPOSES: Turret Setpoint acts like a Limelight
     //SmartDashboard.putNumber("TurretSetpoint", 10);
@@ -33,6 +32,7 @@ public class AutoAim extends CommandBase {
   public void initialize() {
     updated = false;
     Robot.ledMode.setNumber(0);
+    Robot.tx.setNumber(0);
     
   }
 
@@ -52,14 +52,14 @@ public class AutoAim extends CommandBase {
 
     // add network tables import, initialization for a network table on the limelight docs
     // position = Robot.vision.GetX();
-    Robot.turret.autorotate(/*Robot.limelight.getEntry("tx").getDouble(5.0)*/45);
+    Robot.turret.autorotate(Robot.vision.GetX());
     Robot.turret.getPosition();
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(final boolean interrupted) {
   }
 
   // Returns true when the command should end.

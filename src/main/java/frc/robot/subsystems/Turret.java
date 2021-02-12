@@ -32,7 +32,7 @@ public class Turret extends SubsystemBase {
 
   public Turret() {
     Turret.configFactoryDefault();
-    Turret.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+    Turret.configSelectedFeedbackSensor(FeedbackDevice.None, kPIDLoopIdx, kTimeoutMs);
     
     Turret.setInverted(false);
     // SmartDashboard.putNumber("encoder: ", Turret.getSelectedSensorVelocity(0));
@@ -42,7 +42,7 @@ public class Turret extends SubsystemBase {
 
     
     //linear regression told us conversion lol ::pogchamp::
-    Turret.set(ControlMode.Position, position*4096.0/64.0);
+    Turret.set(ControlMode.Position, -position*4096.0/64.0);
 
     SmartDashboard.putNumber("position", Turret.getSelectedSensorPosition(1)*64.0/4096.0);
 

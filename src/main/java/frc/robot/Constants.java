@@ -47,10 +47,10 @@ public final class Constants {
     // public static double turretkP = 01;
     // public static double turretkI = 0.001;
     // public static double turretkD = 0.001;
-    public static double turretkP = 1;
-    public static double turretkI = 0.001;
-    public static double turretkD = 0.001;
-    public static int turretIntZone = 10;
+    public static double turretkP = .0645;
+    public static double turretkI = 0.01;
+    public static double turretkD = 0.0001;
+    public static int turretIntZone = 600;
     //Initial Pose
     public double InitialX = 0;
     public double InitialY = 0;

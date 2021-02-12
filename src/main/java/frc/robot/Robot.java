@@ -148,6 +148,7 @@ public class Robot extends TimedRobot {
     intake.setDefaultCommand(new MoveBalls());
     turret.setDefaultCommand(new Turretoff());
     ledMode.setNumber(1);
+    tx.setNumber(0);
 
     Shooter.shooter.configFactoryDefault();
     Shooter.shooter.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
@@ -164,15 +165,17 @@ public class Robot extends TimedRobot {
     Shooter.shooter.configPeakOutputForward(1, kTimeoutMs);
     Shooter.shooter.configPeakOutputReverse(-1, kTimeoutMs);
 
+    Turret.Turret.setSensorPhase(true);
+
     Turret.Turret.configNominalOutputForward(0, kTimeoutMs);
     Turret.Turret.configNominalOutputReverse(0, kTimeoutMs);
-    Turret.Turret.configPeakOutputForward(0.2, kTimeoutMs);
-    Turret.Turret.configPeakOutputReverse(-0.2, kTimeoutMs);
+    Turret.Turret.configPeakOutputForward(0.1, kTimeoutMs);
+    Turret.Turret.configPeakOutputReverse(-0.1, kTimeoutMs);
 
-    // Turret.configForwardSoftLimitThreshold(10000, 0);
-    // Turret.configReverseSoftLimitThreshold(-10000, 0);
-    // Turret.configForwardSoftLimitEnable(true, 0);
-    // Turret.configReverseSoftLimitEnable(true, 0);
+    Turret.Turret.configForwardSoftLimitThreshold(5760, 0);
+    Turret.Turret.configReverseSoftLimitThreshold(-5760, 0);
+    Turret.Turret.configForwardSoftLimitEnable(true, 0);
+    Turret.Turret.configReverseSoftLimitEnable(true, 0);
 
     Turret.Turret.configAllowableClosedloopError(0, 0, kTimeoutMs);
 
@@ -194,7 +197,7 @@ public class Robot extends TimedRobot {
     shooter.getVelocity();
     turret.getPosition();
     vision.GetX();
-    SmartDashboard.putNumber("LIMELIGHT:", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0));
+    SmartDashboard.putNumber("LIMELIGHTX: ", tx.getDouble(0));
 
     // Read from FMS for WOF
     // gameData = DriverStation.getInstance().getGameSpecificMessage();

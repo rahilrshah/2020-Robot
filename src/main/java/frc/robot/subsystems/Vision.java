@@ -71,8 +71,8 @@ public class Vision extends SubsystemBase {
     //     SmartDashboard.putNumber("distance", distance);
     // }
     public double GetX() {
-        SmartDashboard.putNumber("LimelightX: ", Robot.tx.getDouble(0.0));
-        return Robot.tx.getDouble(0.0);
+        SmartDashboard.putNumber("XLimelight: ", Robot.tx.getDouble(0));
+        return Robot.tx.getDouble(0);
     }
 
     // public void countBalls() {

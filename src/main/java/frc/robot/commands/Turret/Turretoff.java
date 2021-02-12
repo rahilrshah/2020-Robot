@@ -27,7 +27,7 @@ public class Turretoff extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.turret.autorotate(0);
+    Robot.turret.stop();
   }
 
   // Called once the command ends or is interrupted.

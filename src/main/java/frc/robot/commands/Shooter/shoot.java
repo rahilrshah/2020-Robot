@@ -40,6 +40,7 @@ public class shoot extends CommandBase {
     Robot.shooter.getVelocity();
   }
 
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
