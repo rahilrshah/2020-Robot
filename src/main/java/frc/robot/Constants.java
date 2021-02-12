@@ -43,10 +43,9 @@ public final class Constants {
     public double shooterkD = 0.004;
     public int shooterIntZone = 700;
 
+
+    // TODO: tune turret pid values to not oscillate when the turret turns to an object
     // Turret PID Configurations
-    // public static double turretkP = 01;
-    // public static double turretkI = 0.001;
-    // public static double turretkD = 0.001;
     public static double turretkP = .0645;
     public static double turretkI = 0.01;
     public static double turretkD = 0.0001;
