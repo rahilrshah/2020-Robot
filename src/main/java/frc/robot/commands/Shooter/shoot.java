@@ -35,7 +35,7 @@ public class shoot extends CommandBase {
   @Override
   public void execute() {
      // Turns on flywheel at a certain rpm
-    speed = 3500;
+    speed = 4500;
     Robot.shooter.run(speed);
     Robot.shooter.getVelocity();
   }

@@ -10,11 +10,15 @@ package frc.robot.subsystems;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.kinematics.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.geometry.*;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
 public class Drive extends SubsystemBase {
   // Create variables
@@ -25,15 +29,7 @@ public class Drive extends SubsystemBase {
   public static TalonFX BackLeft = new TalonFX(consts.BackLeft);
 
   // Create NavX
-  // public static AHRS navx = new AHRS(SPI.Port.kMXP);
-
-
-  // public final int kPIDLoopIdx = 1;
-  // public final int kTimeoutMs = 30;
-
-  // public  double kD = consts.drivekD;
-  // public  double kI = consts.drivekI;
-  // public  double kP = consts.drivekP;
+  public static AHRS navx = new AHRS();
 	
   // Create Differential Drive Odometry Object and pose
   DifferentialDriveOdometry m_odometry;
@@ -41,57 +37,28 @@ public class Drive extends SubsystemBase {
 
   public Drive()   {
     // Config Encoders
-    // FrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    // FrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    // BackRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    // BackLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    FrontRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    FrontLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    BackRight.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    BackLeft.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     
     //we must reset encoders before instantiating the odometry
-    // resetEncoders();
+    resetEncoders();
     
     //create odometry
-    // m_odometry = new DifferentialDriveOdometry(new Rotation2d(), new Pose2d(consts.InitialX, consts.InitialY, new Rotation2d()));
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(), new Pose2d(consts.InitialX, consts.InitialY, new Rotation2d()));
   }
 
   // Set Right Speeds on Drive Train
-  // public void setRightSpeed(double speed) {
-  //   speed = -speed;
-	// 	if(speed<-1) speed =-1;
-	// 	if(speed>1) speed=1;
-  //   BackRight.set(TalonFXControlMode.PercentOutput,speed);
-  //   FrontRight.set(TalonFXControlMode.PercentOutput,speed);
-  // }
-
-  // Set Speeds on Drive Train (Tank Drive)
-  // public void setSpeed(double speed, double speed1) {
-    // Ensures speed and speed1 are within range [-1,1]
-		// if(speed<-1) speed =-1;
-    // if(speed>1) speed=1;
-    // if(speed1<-1) speed1 =-1;
-    // if(speed1>1) speed1=1;
-
-    // SmartDashboard.putNumber("Roll: ", navx.getRoll());
-    // if(navx.getRoll() <= -10){
-    //   BackLeft.set(TalonFXControlMode.PercentOutput,-0.15);
-    //   FrontLeft.set(TalonFXControlMode.PercentOutput,-0.15);
-    //   BackRight.set(TalonFXControlMode.PercentOutput,0.15);
-		//   FrontRight.set(TalonFXControlMode.PercentOutput,0.15);
-    // }
-    // else if(navx.getRoll() >= 10){
-    //   BackLeft.set(TalonFXControlMode.PercentOutput,0.15);
-    //   FrontLeft.set(TalonFXControlMode.PercentOutput,0.15);
-    //   BackRight.set(TalonFXControlMode.PercentOutput,-0.15);
-		//   FrontRight.set(TalonFXControlMode.PercentOutput,-0.15);
-    // }
-    // else{
-    //   BackLeft.set(TalonFXControlMode.PercentOutput,speed);
-    //   FrontLeft.set(TalonFXControlMode.PercentOutput,speed);
-    //   BackRight.set(TalonFXControlMode.PercentOutput,speed1);
-		//   FrontRight.set(TalonFXControlMode.PercentOutput,speed1);
-    // }
+  public void setRightSpeed(double speed) {
+    speed = -speed;
+		if(speed<-1) speed =-1;
+		if(speed>1) speed=1;
+    BackRight.set(TalonFXControlMode.PercentOutput,speed);
+    FrontRight.set(TalonFXControlMode.PercentOutput,speed);
+  }
 
 
-  // }
 
 
   public void setLeftMotors(double speed){
@@ -195,15 +162,15 @@ public class Drive extends SubsystemBase {
     // This method will be called once per scheduler run
     
     // // Don't exactly know if it's Yaw or Pitch
-    // SmartDashboard.putNumber("YAW: ", navx.getYaw());
-    // Rotation2d gyroAngle = Rotation2d.fromDegrees(-navx.getYaw());
+    SmartDashboard.putNumber("YAW: ", navx.getYaw());
+    Rotation2d gyroAngle = Rotation2d.fromDegrees(-navx.getYaw());
     
     // //Average position of the two encoders on each side
-    // double right_position = ((FrontRight.getSelectedSensorPosition(0)*64.0/4096.0) + (BackRight.getSelectedSensorPosition(0)*64.0/4096.0))/2;
-    // double left_position = ((FrontLeft.getSelectedSensorPosition(0)*64.0/4096.0) + (BackLeft.getSelectedSensorPosition(0)*64.0/4096.0))/2;
+    double right_position = ((FrontRight.getSelectedSensorPosition(0)*64.0/4096.0) + (BackRight.getSelectedSensorPosition(0)*64.0/4096.0))/2;
+    double left_position = ((FrontLeft.getSelectedSensorPosition(0)*64.0/4096.0) + (BackLeft.getSelectedSensorPosition(0)*64.0/4096.0))/2;
     
     // // Update Odometry
-    // m_pose = m_odometry.update(gyroAngle, left_position, right_position);
+    m_pose = m_odometry.update(gyroAngle, left_position, right_position);
 	  
 	  // SmartDashboard.putNumber("Drive X", m_pose.getTranslation().getX());
     // SmartDashboard.putNumber("Drive Y", m_pose.getTranslation().getY());
@@ -218,12 +185,12 @@ public class Drive extends SubsystemBase {
   //   SmartDashboard.putNumber("Back Left Speed: ", BackLeft.getSelectedSensorVelocity(0)* 600 / 2048);
   // }
 
-  // public void resetEncoders(){
-  //   FrontRight.setSelectedSensorPosition(0);
-  //   FrontLeft.setSelectedSensorPosition(0);
-  //   BackRight.setSelectedSensorPosition(0);
-  //   BackLeft.setSelectedSensorPosition(0);
-  // }
+  public void resetEncoders(){
+    FrontRight.setSelectedSensorPosition(0);
+    FrontLeft.setSelectedSensorPosition(0);
+    BackRight.setSelectedSensorPosition(0);
+    BackLeft.setSelectedSensorPosition(0);
+  }
 
   // Retrieve Pose Estimation from odometry
   public Pose2d getPosePosition(){
@@ -232,7 +199,7 @@ public class Drive extends SubsystemBase {
 
   // Retrieve Position of frontright motor
   // Double check these calcs are correct
-  // public double getPosition(){
-  //   return FrontRight.getSelectedSensorPosition(0)*64.0/4096.0;
-  // }
+  public double getPosition(){
+    return FrontRight.getSelectedSensorPosition(0)*64.0/4096.0;
+  }
 }

@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
   public static NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTableEntry ledMode = limelight.getEntry("ledMode");
   public static NetworkTableEntry tx = limelight.getEntry("tx");
+  public static NetworkTableEntry ts = limelight.getEntry("ts");
 
   public static AHRS navx = new AHRS(SPI.Port.kMXP);
 
@@ -165,7 +166,9 @@ public class Robot extends TimedRobot {
     Shooter.shooter.configPeakOutputForward(1, kTimeoutMs);
     Shooter.shooter.configPeakOutputReverse(-1, kTimeoutMs);
 
-    Turret.Turret.setSensorPhase(true);
+    Turret.Turret.configFactoryDefault();
+    Turret.Turret.configSelectedFeedbackSensor(FeedbackDevice.None, kPIDLoopIdx, kTimeoutMs);
+
 
     Turret.Turret.configNominalOutputForward(0, kTimeoutMs);
     Turret.Turret.configNominalOutputReverse(0, kTimeoutMs);
@@ -175,7 +178,8 @@ public class Robot extends TimedRobot {
     Turret.Turret.configForwardSoftLimitThreshold(5760, 0);
     Turret.Turret.configReverseSoftLimitThreshold(-5760, 0);
     Turret.Turret.configForwardSoftLimitEnable(true, 0);
-    Turret.Turret.configReverseSoftLimitEnable(true, 0);
+    Turret.Turret.configReverseSoftLimitEnable(true,0);
+
 
     Turret.Turret.configAllowableClosedloopError(0, 0, kTimeoutMs);
 
@@ -194,10 +198,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // Needs to be removed
+
     shooter.getVelocity();
     turret.getPosition();
-    vision.GetX();
-    SmartDashboard.putNumber("LIMELIGHTX: ", tx.getDouble(0));
 
     // Read from FMS for WOF
     // gameData = DriverStation.getInstance().getGameSpecificMessage();

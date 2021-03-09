@@ -52,7 +52,7 @@ public class AutoAim extends CommandBase {
 
     // add network tables import, initialization for a network table on the limelight docs
     // position = Robot.vision.GetX();
-    Robot.turret.autorotate(Robot.vision.GetX());
+    Robot.turret.autorotate(100*Robot.vision.GetX());
     Robot.turret.getPosition();
 
   }

@@ -37,19 +37,20 @@ public final class Constants {
     public int photoe2 = 1;
 
     // Shooter PID Configurations
-    public double shooterkP = 0.01;
+    public double shooterkP = 0.009;
     public double shooterkF = 0.001;
-    public double shooterkI = 0.0001;
-    public double shooterkD = 0.004;
-    public int shooterIntZone = 700;
+    public double shooterkI = 0.000095;
+    public double shooterkD = 0.0045;
+    public int shooterIntZone = 540;
 
 
     // TODO: tune turret pid values to not oscillate when the turret turns to an object
     // Turret PID Configurations
-    public static double turretkP = .0645;
+
+    public static double turretkP = .0015;
     public static double turretkI = 0.01;
-    public static double turretkD = 0.0001;
-    public static int turretIntZone = 600;
+    public static double turretkD = 0.0;
+    public static int turretIntZone = 400;
     //Initial Pose
     public double InitialX = 0;
     public double InitialY = 0;
