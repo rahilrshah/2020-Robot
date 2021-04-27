@@ -34,8 +34,8 @@ public class JoyStickDrive extends CommandBase {
   @Override
   public void execute() {
     // Mapping for xbox controller
-    leftStick = Math.pow(-1* Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_L_YAXIS),3);
-	  rightStick = Math.pow(Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_R_XAXIS),3);
+    leftStick = Math.pow(-1*Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_L_YAXIS),3);
+	  rightStick = Math.pow(Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_R_YAXIS),3);
 
     // Deadband
 		if(Math.abs(leftStick) < .05) {
@@ -47,8 +47,8 @@ public class JoyStickDrive extends CommandBase {
     
     
     // Set Motor Speed
-    Robot.drive.setLeftMotors(rightStick+leftStick);
-    Robot.drive.setRightMotors(rightStick-leftStick);
+    Robot.drive.setLeftMotors(leftStick);
+    Robot.drive.setRightMotors(rightStick);
   }
 
   // Called once the command ends or is interrupted.

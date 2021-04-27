@@ -34,8 +34,8 @@ public class MoveBalls extends CommandBase {
     LTrigger = Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_L_Trigger);
     RTrigger = Robot.oi.xbox0.getRawAxis(Robot.oi.XBOX_R_Trigger);
 
-    Robot.intake.downserializer1(LTrigger-RTrigger);
-    Robot.intake.downserializer2(LTrigger-RTrigger);
+    // Robot.intake.downserializer1(LTrigger-RTrigger);
+    // Robot.intake.downserializer2(LTrigger-RTrigger);
     Robot.intake.retrieveBall(LTrigger-RTrigger);
   }
 

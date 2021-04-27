@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 //import subsystems
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Turret;
+// import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
 
 //import commands
 import frc.robot.commands.Shooter.*;
-import frc.robot.commands.Turret.*;
+// import frc.robot.commands.Turret.*;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -53,7 +53,7 @@ public class Robot extends TimedRobot {
 
   // Create instances of subsystems
   public static Shooter shooter = new Shooter();
-  public static Turret turret = new Turret();
+  // public static Turret turret = new Turret();
   public static Vision vision = new Vision();
   public static Drive drive = new Drive();
   public static Intake intake = new Intake();
@@ -144,10 +144,10 @@ public class Robot extends TimedRobot {
 
     // Set Default Commands for subsystems
     drive.setDefaultCommand(new JoyStickDrive());
-    turret.setDefaultCommand(new TurretJoyStick());
+    // turret.setDefaultCommand(new TurretJoyStick());
     shooter.setDefaultCommand(new ShooterIdle());
     intake.setDefaultCommand(new MoveBalls());
-    turret.setDefaultCommand(new Turretoff());
+    // turret.setDefaultCommand(new Turretoff());
     ledMode.setNumber(1);
     tx.setNumber(0);
 
@@ -166,28 +166,28 @@ public class Robot extends TimedRobot {
     Shooter.shooter.configPeakOutputForward(1, kTimeoutMs);
     Shooter.shooter.configPeakOutputReverse(-1, kTimeoutMs);
 
-    Turret.Turret.configFactoryDefault();
-    Turret.Turret.configSelectedFeedbackSensor(FeedbackDevice.None, kPIDLoopIdx, kTimeoutMs);
+    // Turret.Turret.configFactoryDefault();
+    // Turret.Turret.configSelectedFeedbackSensor(FeedbackDevice.None, kPIDLoopIdx, kTimeoutMs);
 
 
-    Turret.Turret.configNominalOutputForward(0, kTimeoutMs);
-    Turret.Turret.configNominalOutputReverse(0, kTimeoutMs);
-    Turret.Turret.configPeakOutputForward(0.1, kTimeoutMs);
-    Turret.Turret.configPeakOutputReverse(-0.1, kTimeoutMs);
+    // Turret.Turret.configNominalOutputForward(0, kTimeoutMs);
+    // Turret.Turret.configNominalOutputReverse(0, kTimeoutMs);
+    // Turret.Turret.configPeakOutputForward(0.1, kTimeoutMs);
+    // Turret.Turret.configPeakOutputReverse(-0.1, kTimeoutMs);
 
-    Turret.Turret.configForwardSoftLimitThreshold(5760, 0);
-    Turret.Turret.configReverseSoftLimitThreshold(-5760, 0);
-    Turret.Turret.configForwardSoftLimitEnable(true, 0);
-    Turret.Turret.configReverseSoftLimitEnable(true,0);
-
-
-    Turret.Turret.configAllowableClosedloopError(0, 0, kTimeoutMs);
+    // Turret.Turret.configForwardSoftLimitThreshold(5760, 0);
+    // Turret.Turret.configReverseSoftLimitThreshold(-5760, 0);
+    // Turret.Turret.configForwardSoftLimitEnable(true, 0);
+    // Turret.Turret.configReverseSoftLimitEnable(true,0);
 
 
-    Turret.Turret.config_kD(0, Constants.turretkD, kTimeoutMs);
-    Turret.Turret.config_kI(0, Constants.turretkI, kTimeoutMs);
-    Turret.Turret.config_kP(0, Constants.turretkP, kTimeoutMs);
-    Turret.Turret.config_IntegralZone(0, Constants.turretIntZone, kTimeoutMs);    
+    // Turret.Turret.configAllowableClosedloopError(0, 0, kTimeoutMs);
+
+
+    // Turret.Turret.config_kD(0, Constants.turretkD, kTimeoutMs);
+    // Turret.Turret.config_kI(0, Constants.turretkI, kTimeoutMs);
+    // Turret.Turret.config_kP(0, Constants.turretkP, kTimeoutMs);
+    // Turret.Turret.config_IntegralZone(0, Constants.turretIntZone, kTimeoutMs);    
     
 
   }
@@ -200,7 +200,7 @@ public class Robot extends TimedRobot {
     // Needs to be removed
 
     shooter.getVelocity();
-    turret.getPosition();
+    // turret.getPosition();
 
     // Read from FMS for WOF
     // gameData = DriverStation.getInstance().getGameSpecificMessage();

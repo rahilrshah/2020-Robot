@@ -26,8 +26,8 @@ public class Intake extends SubsystemBase {
    */
   private static Constants consts = new Constants();
   public static CANSparkMax intake = new CANSparkMax(consts.intake, MotorType.kBrushless);
-  public static CANSparkMax serializer2 = new CANSparkMax(consts.serializer2, MotorType.kBrushless);
-  public static CANSparkMax serializer1 = new CANSparkMax(consts.serializer1, MotorType.kBrushless);
+  // public static CANSparkMax serializer2 = new CANSparkMax(consts.serializer2, MotorType.kBrushless);
+  // public static CANSparkMax serializer1 = new CANSparkMax(consts.serializer1, MotorType.kBrushless);
 
   public Intake() {
 
@@ -46,19 +46,19 @@ public class Intake extends SubsystemBase {
     intake.set(speed);
   }
 
-  public void upserializer1(double speed){
-    serializer1.set(-speed);
-  }
+  // public void upserializer1(double speed){
+  //   serializer1.set(-speed);
+  // }
 
-  public void upserializer2(double speed){
-    serializer2.set(-speed);
-  }
+  // public void upserializer2(double speed){
+  //   serializer2.set(-speed);
+  // }
 
-  public void downserializer1(double speed){
-    serializer1.set(speed);
-  }
+  // public void downserializer1(double speed){
+  //   serializer1.set(speed);
+  // }
 
-  public void downserializer2(double speed){
-    serializer2.set(speed);
-  }
+  // public void downserializer2(double speed){
+  //   serializer2.set(speed);
+  // }
 }

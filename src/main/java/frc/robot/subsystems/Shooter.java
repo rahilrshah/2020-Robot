@@ -51,7 +51,7 @@ public class Shooter extends SubsystemBase {
     
   
 
-    shooter.setInverted(true);
+    shooter.setInverted(false);
     shooter.set(ControlMode.Velocity, speed * 4096 / 1200);// 4096/1200
     SmartDashboard.putNumber("encoder: ", shooter.getSelectedSensorVelocity(1));
 

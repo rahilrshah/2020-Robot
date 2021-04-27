@@ -27,7 +27,7 @@ public class AutoDrive extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Robot.drive.resetEncoders();
+    // Robot.drive.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -37,13 +37,13 @@ public class AutoDrive extends CommandBase {
     // Current Implementation: Drive 10000 raw sensor units and then stop motors, Double check calc on
     // Robot.drive.getPosition()
     // Uncomment code after tank drive fix
-    double currentPos = Robot.drive.getPosition();
-    while(currentPos > -10000) {
-      SmartDashboard.putNumber("Position: ", currentPos);
-      //Robot.drive.setLeftSpeed(0.1);
-      Robot.drive.setRightSpeed(0.1);
-      currentPos = Robot.drive.getPosition();
-    }
+    // double currentPos = Robot.drive.getPosition();
+    // while(currentPos > -10000) {
+    //   // SmartDashboard.putNumber("Position: ", currentPos);
+    //   //Robot.drive.setLeftSpeed(0.1);
+    //   Robot.drive.setRightSpeed(0.1);
+    //   // currentPos = Robot.drive.getPosition();
+    // }
     //Robot.drive.setLeftSpeed(0.0);
     Robot.drive.setRightSpeed(0.0);
   }

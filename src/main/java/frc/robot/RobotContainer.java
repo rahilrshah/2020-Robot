@@ -13,14 +13,14 @@ import edu.wpi.first.wpilibj.XboxController;
 // import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Shooter.*;
-import frc.robot.commands.Turret.AutoAim;
+// import frc.robot.commands.Turret.AutoAim;
 // import frc.robot.commands.Turret.AutoAim;
 // import frc.robot.commands.Turret.*;
 // import frc.robot.commands.Drive.*;
 // import frc.robot.commands.Intake.countBalls;
 // import frc.robot.commands.Turret.AutoAim;
 // import frc.robot.commands.Turret.Turretoff;
-import frc.robot.commands.Turret.Turretoff;
+// import frc.robot.commands.Turret.Turretoff;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -85,8 +85,8 @@ public class RobotContainer {
     // driver 2 
     driver1LBumper.whileHeld(new shoot());
     driver1RBumper.whileHeld(new ShooterIdle());
-    driver1ButtonB.whileHeld(new AutoAim());
-    driver1ButtonA.whileHeld(new Turretoff());
+    // driver1ButtonB.whileHeld(new AutoAim());
+    // driver1ButtonA.whileHeld(new Turretoff());
     // driver2ButtonB.whenPressed(new AutoAim());
     // driver2LBumper.whenPressed(new TurretStabilizer());
     // driver2RBumper.whenPressed(new TurnoffStabilizer());

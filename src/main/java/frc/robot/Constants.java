@@ -23,12 +23,12 @@ public final class Constants {
 	// CAN IDs
     public int 	shooter  = 1;
     public int 	FrontRight = 0;
-    public int FrontLeft = 3;
-    public int 	BackRight = 5;
-    public int BackLeft = 2;
+    public int FrontLeft = 20;
+    public int 	BackRight = 2;
+    public int BackLeft = 3;
     public int Turret = 7;
-    public int intake = 6;
-    public int serializer2 = 8;
+    public int intake = 8;
+    public int serializer2 = 15;
     public int serializer1 = 9;
     public int indexer = 10;  
     
